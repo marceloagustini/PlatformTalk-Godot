@@ -1,0 +1,60 @@
+[gd_scene load_steps=11 format=2]
+
+[ext_resource path="res://scripts/helperguy.gd" type="Script" id=1]
+[ext_resource path="res://recursos/sprites/helperguy/wizzard_f_idle_anim_f0.png" type="Texture" id=2]
+[ext_resource path="res://recursos/sprites/helperguy/wizzard_f_idle_anim_f1.png" type="Texture" id=3]
+[ext_resource path="res://recursos/sprites/helperguy/wizzard_f_idle_anim_f2.png" type="Texture" id=4]
+[ext_resource path="res://recursos/sprites/helperguy/wizzard_f_idle_anim_f3.png" type="Texture" id=5]
+[ext_resource path="res://recursos/fonts/webpixel bitmap_medium.otf" type="DynamicFontData" id=6]
+[ext_resource path="res://scripts/rich.gd" type="Script" id=7]
+
+[sub_resource type="SpriteFrames" id=1]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 3 ), ExtResource( 4 ), ExtResource( 5 ) ],
+"loop": true,
+"name": "idle",
+"speed": 5.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 22.6521, 17.4625 )
+
+[sub_resource type="DynamicFont" id=3]
+font_data = ExtResource( 6 )
+
+[node name="helperguy" type="Node2D"]
+position = Vector2( 119.398, 98.2702 )
+script = ExtResource( 1 )
+
+[node name="animacion" type="AnimatedSprite" parent="."]
+frames = SubResource( 1 )
+animation = "idle"
+
+[node name="collision" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="collision"]
+position = Vector2( -0.6908, 3.8308 )
+shape = SubResource( 2 )
+
+[node name="texto" type="Polygon2D" parent="."]
+position = Vector2( -7.398, -82.2702 )
+color = Color( 1, 1, 1, 0.811765 )
+polygon = PoolVector2Array( -6.7072, 3.24364, -70.7072, 3.24364, -70.7072, 51.2436, 89.2928, 51.2436, 89.2928, 3.24364, -6.7072, 3.24364, -6.7072, 3.24364 )
+
+[node name="rich" type="RichTextLabel" parent="texto"]
+margin_left = -64.0
+margin_top = 11.0
+margin_right = 89.0
+margin_bottom = 43.0
+custom_fonts/normal_font = SubResource( 3 )
+custom_colors/default_color = Color( 0, 0, 0, 1 )
+bbcode_enabled = true
+scroll_active = false
+script = ExtResource( 7 )
+
+[node name="timer" type="Timer" parent="texto"]
+wait_time = 0.01
+autostart = true
+[connection signal="body_entered" from="collision" to="." method="_on_collision_body_entered"]
+[connection signal="body_exited" from="collision" to="." method="_on_collision_body_exited"]
+[connection signal="timeout" from="texto/timer" to="texto/rich" method="_on_timer_timeout"]
