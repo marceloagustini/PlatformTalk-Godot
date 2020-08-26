@@ -5,7 +5,7 @@ Godot 3 project.
 Educational system for Talk near player
  * Array with dinamyc text
  * Prefabs
- * Tiemaps
+ * Tilemaps
  * Parallax
  * Camera
  * Players and more...
